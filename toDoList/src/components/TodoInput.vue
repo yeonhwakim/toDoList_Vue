@@ -3,8 +3,8 @@
     <input type="text" 
       v-model="newTodoItem" 
       placeholder="Type what you have to do"
-      v-on:keyup.enter="addTodo">
-    <span class="addContainer" v-on:click="addTodo">
+      v-on:keyup.enter="addItem">
+    <span class="addContainer" v-on:click="addItem">
       <i class="addBtn fas fa-plus" aria-hidden="true"></i>
     </span>
   </div>
@@ -18,10 +18,10 @@ export default {
     }
   },
   methods: {
-    addTodo() {
+    addItem() {
       if(this.newTodoItem !== ""){
         const value = this.newTodoItem && this.newTodoItem.trim();
-        this.$emit('addTodo', value);
+        this.$emit('addItem', value);
         this.clearInput();
       }
     },

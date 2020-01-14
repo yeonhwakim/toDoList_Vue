@@ -25,8 +25,8 @@ export default {
     savedItems.map( v => this.todontItems.push(v))
   },
   methods: {
-    addTodont(todoItem) {
-      this.todontItems.push(todoItem)
+    addTodont(todontItem) {
+      this.todontItems.push(todontItem)
       localStorage.setItem('todont', this.todontItems)
     },
     removeTodont(todontItem, index) {
@@ -34,6 +34,8 @@ export default {
       localStorage.setItem('todont', this.todontItems)
     },
     checkTodo(todoItem, index) {
+      this.todontItems.splice(index, 1)
+      localStorage.setItem('todont', this.todontItems)
       localStorage.setItem('todo', todoItem)
     },
     clearAll(){

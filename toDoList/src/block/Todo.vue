@@ -1,8 +1,8 @@
 <template>
   <div class="wrapper">
     <TodoHeader v-bind:title="title"></TodoHeader>
-    <TodoList></TodoList>
-    <TodoFooter></TodoFooter>
+    <TodoList v-bind:items="todoItems" @removeItem ="removeTodo" @checkItem ="checkDone"></TodoList>
+    <TodoFooter @clearAll ="clearAll"></TodoFooter>
   </div>
 </template>
 
@@ -18,8 +18,25 @@ export default {
       title: "To do list!!"
     }
   },
+  created() {
+    localStorage.setItem('todo', 'e,f,g')
+    const savedItems = localStorage.getItem('todo').split(',')
+    savedItems.map( v => this.todoItems.push(v))
+  },
   methods: {
-
+    removeTodo(todoItem, index) {
+      this.todoItems.splice(index, 1)
+      localStorage.setItem('todo', this.todoItems)
+    },
+    checkDone(doneItem, index) {
+      this.todoItems.splice(index, 1)
+      localStorage.setItem('todo', this.todoItems)
+      localStorage.setItem('done', doneItem)
+    },
+    clearAll(){
+      this.todontItems = []
+      localStorage.clear()
+    }
   },
   components: {
     'TodoHeader': TodoHeader,

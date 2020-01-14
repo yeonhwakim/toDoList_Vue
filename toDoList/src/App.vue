@@ -1,17 +1,15 @@
 <template>
   <div id="app">
-    <TodoHeader></TodoHeader>
-    <TodoInput v-on:addTodo="addTodo"></TodoInput>
-    <TodoList v-bind:propsdata=" todoItems" @removeTodo="removeTodo"></TodoList>
-    <TodoFooter v-on:clearAll="clearAll"></TodoFooter>
+    <Todont></Todont>
+    <Todo></Todo>
+    <Done></Done>
   </div>
 </template>
 
 <script>
-import TodoHeader from './components/TodoHeader'
-import TodoInput from './components/TodoInput'
-import TodoList from './components/TodoList'
-import TodoFooter from './components/TodoFooter'
+import Todont from './block/Todont'
+import Todo from './block/Todo'
+import Done from './block/Done'
 
 export default {
   data() {
@@ -20,31 +18,12 @@ export default {
     }
   },
   methods: {
-    created() {
-      if(localStorage.length >0) {
-        for(let i = 0; i < localStorage.length; i++){
-          this.todoItems.push(localStorage.key(i))
-        }
-      }
-    },
-    addTodo(todoItem) {
-      localStorage.setItem(todoItem, todoItem)
-      this.todoItems.push(todoItem)
-    },
-    removeTodo(todoItem, index) {
-      localStorage.removeItem(todoItem)
-      this.todoItems.splice(index, 1)
-    },
-    clearAll() {
-      localStorage.clear()
-      this.todoItems = []
-    }
+
   },
   components: {
-    'TodoHeader': TodoHeader,
-    'TodoInput': TodoInput,
-    'TodoList': TodoList,
-    'TodoFooter': TodoFooter
+    'Todont': Todont,
+    'Todo': Todo,
+    'Done': Done,
   }
 }
 </script>
@@ -53,6 +32,15 @@ export default {
   body {
     text-align: center;
     background-color: #F6F6F8;
+  }
+
+  #app{
+    display: flex;
+    justify-content: space-around;
+  }
+
+  .wrapper{
+    width: 33%;
   }
 
   input {

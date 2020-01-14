@@ -1,8 +1,13 @@
 <template>
   <div class="wrapper">
-    <TodoHeader v-bind:title="title"></TodoHeader>
-    <TodoList v-bind:show="true" v-bind:items="todoItems" @removeItem ="removeTodo" @checkItem ="checkDone"></TodoList>
-    <TodoFooter @clearAll ="clearAll"></TodoFooter>
+    <TodoHeader v-bind:title="store.title"/>
+    <TodoList v-bind:show="true" 
+      v-bind:items="store.items" 
+      @checkItem ="checkDone"
+      @removeItem ="removeTodo"/> 
+    <TodoFooter
+      v-bind:items="store.items" 
+      @clearAll ="clearAll"/>
   </div>
 </template>
 
@@ -12,30 +17,16 @@ import TodoList from '../components/TodoList'
 import TodoFooter from '../components/TodoFooter'
 
 export default {
-  data() {
-    return {
-      todoItems: [],
-      title: "To do list!!"
-    }
-  },
-  created() {
-    localStorage.setItem('todo', 'e,f,g')
-    const savedItems = localStorage.getItem('todo').split(',')
-    savedItems.map( v => this.todoItems.push(v))
-  },
+  props: ['store'],
   methods: {
-    removeTodo(todoItem, index) {
-      this.todoItems.splice(index, 1)
-      localStorage.setItem('todo', this.todoItems)
+     checkDone(doneItem, index) {
+      this.$emit('checkItem', 'todo', 'done', doneItem, index)
     },
-    checkDone(doneItem, index) {
-      this.todoItems.splice(index, 1)
-      localStorage.setItem('todo', this.todoItems)
-      localStorage.setItem('done', doneItem)
+    removeTodo(index) {
+       this.$emit('removeItem', 'todo', index)
     },
     clearAll(){
-      this.todontItems = []
-      localStorage.clear()
+      this.$emit('clearAll', 'todo');
     }
   },
   components: {

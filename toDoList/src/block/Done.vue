@@ -1,7 +1,7 @@
 <template>
   <div class="wrapper">
-    <TodoHeader v-bind:title="title"></TodoHeader>
-    <TodoList v-bind:items="doneItems" v-bind:show="false"></TodoList>
+    <TodoHeader v-bind:title="store.title"/>
+    <TodoList v-bind:items="store.items" v-bind:show="false"/>
   </div>
 </template>
 
@@ -11,20 +11,7 @@ import TodoList from '../components/TodoList'
 import TodoFooter from '../components/TodoFooter'
 
 export default {
-  data() {
-    return {
-      doneItems: [],
-      title: "Done!"
-    }
-  },
-  created() {
-    localStorage.setItem('done', 'i,j,k')
-    const savedItems = localStorage.getItem('done').split(',')
-    savedItems.map( v => this.doneItems.push(v))
-  },
-  methods: {
-
-  },
+  props: ['store'],
   components: {
     'TodoHeader': TodoHeader,
     'TodoList': TodoList,

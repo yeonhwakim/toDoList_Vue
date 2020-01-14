@@ -6,7 +6,7 @@
           <i class="fas fa-check" aria-hidden="true"></i>
         </span>
         {{item}}
-        <span v-if="show" class="removeBtn" type="button" @click="removeItem(item, index)">
+        <span v-if="show" class="removeBtn" type="button" @click="removeItem(index)">
           <i class="far fa-trash-alt" aria-hidden="true"></i>
         </span>
       </li>
@@ -18,11 +18,11 @@
 export default {
   props: ['items', 'show'],
   methods: {
-    removeItem(item, index) {
-      this.$emit('removeItem', item, index)
-    },
     checkItem(item, index) {
       this.$emit('checkItem', item, index)
+    },
+    removeItem(index) {
+      this.$emit('removeItem', index)
     }
   }
 }

@@ -1,10 +1,12 @@
 <template>
   <section>
     <ul>
-      <li class="shadow" v-for="(todoItem, index) in propsdata" v-bind:key="todoItem">
-        <i class="checkBtn fas fa-check" aria-hidden="true"></i>
-        {{todoItem}}
-        <span class="removeBtn" type="button" @click="removeTodo(todoItem, index)">
+      <li class="shadow" v-for="(item, index) in items" v-bind:key="item">
+        <span v-if="show" class="checkBtn" type="button" @click="checkItem(item, index)">
+          <i class="fas fa-check" aria-hidden="true"></i>
+        </span>
+        {{item}}
+        <span v-if="show" class="removeBtn" type="button" @click="removeItem(index)">
           <i class="far fa-trash-alt" aria-hidden="true"></i>
         </span>
       </li>
@@ -14,10 +16,13 @@
 
 <script>
 export default {
-  props: ['propsdata'],
+  props: ['items', 'show'],
   methods: {
-    removeTodo(todoItem, index) {
-      this.$emit('removeTodo', todoItem, index)
+    checkItem(item, index) {
+      this.$emit('checkItem', item, index)
+    },
+    removeItem(index) {
+      this.$emit('removeItem', index)
     }
   }
 }

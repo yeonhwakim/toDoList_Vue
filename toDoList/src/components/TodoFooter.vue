@@ -1,13 +1,14 @@
 <template>
-  <div class="clearAllContainer">
-    <span class="clearAllBtn" @click="clearTodo">Clear All</span>
+  <div v-if="items.length" class="clearAllContainer">
+    <span class="clearAllBtn" @click="clearAll">Clear All</span>
   </div>
 </template>
 
 <script>
 export default {
+  props: ['items'],
   methods: {
-    clearTodo() {
+    clearAll() {
       this.$emit('clearAll');
     }
   }

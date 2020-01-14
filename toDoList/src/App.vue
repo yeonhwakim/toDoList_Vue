@@ -1,50 +1,80 @@
 <template>
   <div id="app">
-    <TodoHeader></TodoHeader>
-    <TodoInput v-on:addTodo="addTodo"></TodoInput>
-    <TodoList v-bind:propsdata=" todoItems" @removeTodo="removeTodo"></TodoList>
-    <TodoFooter v-on:clearAll="clearAll"></TodoFooter>
+    <Todont v-bind:store="todont" 
+      @addItem ="addItem" 
+      @checkItem ="checkItem"
+      @removeItem ="removeItem"
+      @clearAll ="clearAll"/>
+    <Todo v-bind:store="todo"
+      @checkItem ="checkItem"
+      @removeItem ="removeItem"
+      @clearAll ="clearAll"/>
+    <Done v-bind:store="done"/>
   </div>
 </template>
 
 <script>
-import TodoHeader from './components/TodoHeader'
-import TodoInput from './components/TodoInput'
-import TodoList from './components/TodoList'
-import TodoFooter from './components/TodoFooter'
+import Todont from './block/Todont'
+import Todo from './block/Todo'
+import Done from './block/Done'
 
 export default {
   data() {
     return {
-      todoItems: []
+      todont: {
+        items: [],
+        title: "To don't list!"
+      },
+      todo: {
+        items: [],
+        title: "To do list!!"
+      },
+      done: {
+        items: [],
+        title: "Done!!!"
+      },
     }
   },
-  methods: {
-    created() {
-      if(localStorage.length >0) {
-        for(let i = 0; i < localStorage.length; i++){
-          this.todoItems.push(localStorage.key(i))
-        }
+  created() {
+    ['todont', 'todo', 'done'].map(l => {
+      const items = localStorage.getItem(l)
+      if(items && items.length){
+        return items.split(',').map( v => this[l].items.push(v))
       }
+      return 
+    })
+  },
+  methods: {
+    addItem(state, item) {
+      this[state].items.unshift(item)
+      localStorage.setItem(state, this[state].items)
     },
-    addTodo(todoItem) {
-      localStorage.setItem(todoItem, todoItem)
-      this.todoItems.push(todoItem)
+    checkItem(state, nextState, item, index) {
+      const todoItems = localStorage.getItem('todo')
+      const flag = nextState === 'todo' && todoItems && (todoItems.split(',').length === 3 || todoItems.split(',').length > 3)
+      if(flag) {
+        alert('이미 3가지 해야 할 일이 있습니다.')
+        return
+      }
+
+      this[state].items.splice(index, 1)
+      this[nextState].items.unshift(item)
+      localStorage.setItem(state, this[state].items)
+      localStorage.setItem(nextState, this[nextState].items)
     },
-    removeTodo(todoItem, index) {
-      localStorage.removeItem(todoItem)
-      this.todoItems.splice(index, 1)
+    removeItem(state, index) {
+      this[state].items.splice(index, 1)
+      localStorage.setItem(state, this[state].items)
     },
-    clearAll() {
-      localStorage.clear()
-      this.todoItems = []
+    clearAll(state){
+      this[state].items = []
+      localStorage.removeItem(state)
     }
   },
   components: {
-    'TodoHeader': TodoHeader,
-    'TodoInput': TodoInput,
-    'TodoList': TodoList,
-    'TodoFooter': TodoFooter
+    'Todont': Todont,
+    'Todo': Todo,
+    'Done': Done,
   }
 }
 </script>
@@ -53,6 +83,15 @@ export default {
   body {
     text-align: center;
     background-color: #F6F6F8;
+  }
+
+  #app{
+    display: flex;
+    justify-content: space-around;
+  }
+
+  .wrapper{
+    width: 33%;
   }
 
   input {

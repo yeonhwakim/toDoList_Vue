@@ -2,11 +2,11 @@
   <section>
     <ul>
       <li class="shadow" v-for="(item, index) in items" v-bind:key="item">
-        <span class="checkBtn" type="button" @click="checkItem(item, index)">
+        <span v-if="show" class="checkBtn" type="button" @click="checkItem(item, index)">
           <i class="fas fa-check" aria-hidden="true"></i>
         </span>
         {{item}}
-        <span class="removeBtn" type="button" @click="removeItem(item, index)">
+        <span v-if="show" class="removeBtn" type="button" @click="removeItem(item, index)">
           <i class="far fa-trash-alt" aria-hidden="true"></i>
         </span>
       </li>
@@ -16,7 +16,7 @@
 
 <script>
 export default {
-  props: ['items'],
+  props: ['items', 'show'],
   methods: {
     removeItem(item, index) {
       this.$emit('removeItem', item, index)

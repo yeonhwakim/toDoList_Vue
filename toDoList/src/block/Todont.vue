@@ -2,7 +2,7 @@
   <div class="wrapper">
     <TodoHeader  v-bind:title="title"></TodoHeader>
     <TodoInput @addItem ="addTodont"></TodoInput>
-    <TodoList v-bind:items="todontItems" @removeItem ="removeTodont" @checkItem ="checkTodo"></TodoList>
+    <TodoList v-bind:show="true" v-bind:items="todontItems" @removeItem ="removeTodont" @checkItem ="checkTodo"></TodoList>
     <TodoFooter @clearAll ="clearAll"></TodoFooter>
   </div>
 </template>

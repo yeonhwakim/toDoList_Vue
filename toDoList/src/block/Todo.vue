@@ -1,7 +1,7 @@
 <template>
   <div class="wrapper">
     <TodoHeader v-bind:title="title"></TodoHeader>
-    <TodoList v-bind:items="todoItems" @removeItem ="removeTodo" @checkItem ="checkDone"></TodoList>
+    <TodoList v-bind:show="true" v-bind:items="todoItems" @removeItem ="removeTodo" @checkItem ="checkDone"></TodoList>
     <TodoFooter @clearAll ="clearAll"></TodoFooter>
   </div>
 </template>
